@@ -429,17 +429,17 @@ nav {
     backdrop-filter: blur(10px);
 }
 
-.level-debutant {
+.level-Débutant {
     background: rgba(16, 185, 129, 0.9);
     color: white;
 }
 
-.level-intermediaire {
+.level-Intermédiaire {
     background: rgba(245, 158, 11, 0.9);
     color: white;
 }
 
-.level-avance {
+.level-Avancé {
     background: rgba(239, 68, 68, 0.9);
     color: white;
 }
@@ -617,6 +617,7 @@ footer {
     border-top-color: white;
     animation: spin 1s ease-in-out infinite;
 }
+
 
 @keyframes spin {
     to {

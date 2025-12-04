@@ -29,9 +29,9 @@
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p><i class="fas fa-envelope"></i> contact@learnhub.com</p>
+                    <p><i class="fas fa-envelope"></i> youssefboudouar771@gmail.com</p>
                     <p><i class="fas fa-phone"></i> +212 5XX-XXXXXX</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Casablanca, Maroc</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Zagora, Maroc</p>
                 </div>
             </div>
             <div class="footer-bottom">

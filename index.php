@@ -1,6 +1,7 @@
 <?php
     require_once 'header.php';
-    
+    $sql = "SELECT * FROM courses;";
+    $result = mysqli_query($connection, $sql);
 ?>
 
     <!-- Hero Section -->
@@ -49,7 +50,9 @@
             </div>
 
             <div class="courses-grid" id="coursesGrid">
-                <!-- Courses will be loaded here -->
+                <?php
+                    require_once 'courses/courses_list.php'
+                ?>
             </div>
         </div>
     </div>
