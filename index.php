@@ -42,11 +42,10 @@
             <div class="section-header">
                 <h2>Nos Cours</h2>
                 <div class="filter-tabs">
-                    <button class="filter-btn active" onclick="filterCourses('all')">Tous</button>
-                    <button class="filter-btn" onclick="filterCourses('Débutant')">Débutant</button>
-                    <button class="filter-btn" onclick="filterCourses('Intermédiaire')">Intermédiaire</button>
-                    <button class="filter-btn" onclick="filterCourses('Avancé')">Avancé</button>
-                </div>
+    <a href="/courses/courses_create.php" class="filter-btn">
+        <i class="fas fa-plus"></i> Add New Course
+    </a>
+</div>
             </div>
 
             <div class="courses-grid" id="coursesGrid">

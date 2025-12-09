@@ -1,4 +1,5 @@
 <?php
+
     $sql = "SELECT * FROM courses;";
     $result = mysqli_query($connection, $sql);
 ?>
@@ -43,6 +44,7 @@
                 <span class="section-name"><?php echo $section['title']?></span>
             </div>
             <?php }?>
+            <button class="filter-btn active">Add New Section</button>
         </div>
     </div>
 </div>
