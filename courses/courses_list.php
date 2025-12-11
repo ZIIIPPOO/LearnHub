@@ -75,7 +75,7 @@
         </a>
         <a href="/sections/sections_delete.php?id=<?php echo $section['id']; ?>&course_id=<?php echo $course['id']; ?>" 
            style="color: #ef4444; text-decoration: none;" title="Supprimer"
-           onclick="return confirm('Supprimer cette section ?');">
+           onclick="return confirm('Tu veut supprimer cette section ?');">
             <i class="fas fa-trash-alt"></i>
         </a>
     </div>
