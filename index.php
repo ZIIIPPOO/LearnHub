@@ -2,6 +2,10 @@
     require_once 'header.php';
     $sql = "SELECT * FROM courses;";
     $result = mysqli_query($connection, $sql);
+
+
+    $courses_nb = mysqli_num_rows($result);
+
 ?>
 
     <!-- Hero Section -->
@@ -17,7 +21,7 @@
         <div class="stats">
             <div class="stat-card">
                 <i class="fas fa-book"></i>
-                <h3>4</h3>
+                <h3><?=$courses_nb?></h3>
                 <p>Cours Disponibles</p>
             </div>
             <div class="stat-card">
