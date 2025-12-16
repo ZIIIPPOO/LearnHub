@@ -17,6 +17,25 @@ CREATE TABLE sections (
 	CONSTRAINT course_position UNIQUE(course_id, position)
 );
 
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+);
+
+CREATE TABLE enrollments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    course_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+
+    UNIQUE KEY unique_enrollment (user_id, course_id)
+);
+
 INSERT INTO courses (title, description, course_level, created_at) VALUES
 ('Introduction au Python', 'Apprenez les bases de la programmation Python', 'Débutant', '2024-01-15'),
 ('JavaScript Avancé', 'Maîtrisez les concepts avancés de JavaScript', 'Avancé', '2024-02-20'),
@@ -48,7 +67,7 @@ INSERT INTO sections (course_id, title, content, position, created_at) VALUES
 (4, 'Optimisation', 'Index et performances', 3, '2024-04-08');
 
 
-SELECT * 
-FROM courses
-JOIN sections
-ON sections.course_id = courses.id
+-- SELECT * 
+-- FROM courses
+-- JOIN sections
+-- ON sections.course_id = courses.id
