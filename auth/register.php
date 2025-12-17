@@ -1,5 +1,26 @@
+<?php
+    session_start();
+    require_once '../config.php';
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        $username = $_POST['full_name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $sql = "INSERT INTO users (username, email, password) 
+            VALUES ('$full_name', '$email', '$password')";
+        
+        mysqli_query($connection, $sql);
+
+        header('Location: login.php');
+        exit();
+    }
+
+    require_once '../header.php'
+?>
+
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero" style="padding: 1.5rem 0; min-height: auto; height: 17vh;">
     <div class="container">
         <h1>Créer un Compte</h1>
         <p>Rejoignez LearnHub et commencez votre parcours d'apprentissage</p>
@@ -22,7 +43,7 @@
         </div> -->
 
         <!-- Form Card -->
-        <div class="course-card">
+        <div>
             <form method="POST" action="" class="course-form">
                 
                 <!-- Full Name -->
@@ -31,7 +52,7 @@
                         <i class="fas fa-user"></i> Nom Complet *
                     </label>
                     <input type="text" id="full_name" name="full_name" 
-                           placeholder="Ex: Ahmed Bennani" required>
+                           placeholder="Ex: Youssef Boudouar" required>
                 </div>
 
                 <!-- Email -->
@@ -40,7 +61,7 @@
                         <i class="fas fa-envelope"></i> Email *
                     </label>
                     <input type="email" id="email" name="email" 
-                           placeholder="Ex: ahmed@example.com" required>
+                           placeholder="Ex: youssefboudouar771@example.com" required>
                 </div>
 
                 <!-- Password -->
@@ -50,18 +71,6 @@
                     </label>
                     <input type="password" id="password" name="password" 
                            placeholder="Minimum 6 caractères" required>
-                    <small style="color: #64748b; font-size: 0.875rem; display: block; margin-top: 0.5rem;">
-                        <i class="fas fa-shield-alt"></i> Votre mot de passe sera crypté
-                    </small>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="form-group">
-                    <label for="confirm_password">
-                        <i class="fas fa-lock"></i> Confirmer le mot de passe *
-                    </label>
-                    <input type="password" id="confirm_password" name="confirm_password" 
-                           placeholder="Répétez le mot de passe" required>
                 </div>
 
                 <!-- Buttons -->
@@ -87,3 +96,8 @@
         </div>
     </div>
 </div>
+
+
+<?php
+    require_once '../footer.php'
+?>
