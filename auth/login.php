@@ -1,5 +1,29 @@
+<?php
+    session_start();
+    require_once '../config.php';
+    
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+        $result = mysqli_query($connection, $sql);
+        
+        if(mysqli_num_rows($result) > 0){
+            $user = mysqli_fetch_assoc($result);
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            header("Location: ../index.php");
+            exit();
+        }
+    }
+    require_once '../header.php'
+?>
+
+
+
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero" style="padding: 1.5rem 0; min-height: auto; height: 17vh;">
     <div class="container">
         <h1>Connexion</h1>
         <p>Accédez à votre espace d'apprentissage</p>
@@ -16,10 +40,7 @@
         </div> -->
 
         <!-- Form Card -->
-        <div class="course-card">
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <i class="fas fa-user-circle" style="font-size: 4rem; color: #667eea;"></i>
-            </div>
+        <div >
 
             <form method="POST" action="" class="course-form">
                 
@@ -39,14 +60,6 @@
                     </label>
                     <input type="password" id="password" name="password" 
                            placeholder="Votre mot de passe" required>
-                </div>
-
-                <!-- Remember Me -->
-                <div style="margin: 1rem 0;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="checkbox" name="remember" style="width: auto;">
-                        <span style="color: #64748b; font-size: 0.9rem;">Se souvenir de moi</span>
-                    </label>
                 </div>
 
                 <!-- Buttons -->
@@ -69,3 +82,10 @@
         </div>
     </div>
 </div>
+
+
+<?php
+    require_once '../footer.php'
+
+
+?>
