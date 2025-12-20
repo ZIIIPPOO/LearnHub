@@ -45,7 +45,7 @@ $res_this_year = mysqli_query($connection, $sql_this_year);
 require_once '../header.php';
 ?>
 
-<!-- Hero Secti -->
+<!-- Hero Sect -->
 <section class="hero" style="padding: 2rem 0; min-height: auto;">
     <div class="container">
         <h1><i class="fas fa-chart-line"></i> Tableau de Bord Statistiques</h1>
