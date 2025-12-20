@@ -55,7 +55,7 @@ require_once '../header.php';
 
 <div class="container">
 
-    <!-- Main Stats Cards (4 cards like homepage) -->
+    <!-- Main Stats Cards -->
     <div class="stats">
         <!-- Card 1: Total Courses -->
         <div class="stat-card">
