@@ -46,7 +46,19 @@ WHERE id NOT IN (SELECT course_id FROM enrollments)";
 $res_no_enrollments = mysqli_query($connection, $sql_no_enrollments);
 
 
+$sql_last_3 = "SELECT * FROM enrollments 
+ORDER BY created_at DESC 
+LIMIT 3";
+$res_last_3 = mysqli_query($connection, $sql_last_3);
 
+$sql_enrollments_per_course = "SELECT 
+    courses.title,
+    COUNT(enrollments.id) as total_enrollments
+FROM courses
+LEFT JOIN enrollments ON courses.id = enrollments.course_id
+GROUP BY courses.id
+ORDER BY total_enrollments DESC";
+$res_enrollments_per_course = mysqli_query($connection, $sql_enrollments_per_course);
 
 
 require_once '../header.php';
@@ -88,7 +100,7 @@ require_once '../header.php';
         <!-- Card 4: Average Sections -->
         <div class="stat-card">
             <i class="fas fa-list-ul"></i>
-            <h3><?=$sections_avg?></h3>
+            <h3><?= $sections_avg ?></h3>
             <p>Sections par Cours</p>
         </div>
     </div>
@@ -116,54 +128,53 @@ require_once '../header.php';
 
     <!-- Courses with 5+ Sections -->
     <!-- Courses with 5+ Sections -->
-<div class="courses-section">
-    <div class="section-header">
-        <h2><i class="fas fa-layer-group"></i> Cours avec Plus de 5 Sections</h2>
-        <span class="badge-count"><?= mysqli_num_rows($res_plus_five_sections); ?> cours</span>
-    </div>
-    
-    <div class="table-card">
-        <?php if(mysqli_num_rows($res_plus_five_sections) > 0): ?>
-            <table class="stats-table">
-                <thead>
-                    <tr>
-                        <th>Titre du Cours</th>
-                        <th>Nombre de Sections</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while($courses_plus_five_sections = mysqli_fetch_assoc($res_plus_five_sections)): ?>
+    <div class="courses-section">
+        <div class="section-header">
+            <h2><i class="fas fa-layer-group"></i> Cours avec Plus de 5 Sections</h2>
+            <span class="badge-count"><?= mysqli_num_rows($res_plus_five_sections); ?> cours</span>
+        </div>
+
+        <div class="table-card">
+            <?php if (mysqli_num_rows($res_plus_five_sections) > 0): ?>
+                <table class="stats-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <div class="course-cell">
-                                    <i class="fas fa-book"></i>
-                                    <span><?=$courses_plus_five_sections ['title']; ?></span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="number-highlight">
-                                    <?=  $courses_plus_five_sections['total_sections']; ?>
-                                </span>
-                            </td>
+                            <th>Titre du Cours</th>
+                            <th>Nombre de Sections</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <div class="empty-state">
-                <i class="fas fa-inbox"></i>
-                <h3>Aucun cours trouvé</h3>
-                <p>Il n'y a pas de cours avec plus de 4 sections</p>
-            </div>
-        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php while ($courses_plus_five_sections = mysqli_fetch_assoc($res_plus_five_sections)): ?>
+                            <tr>
+                                <td>
+                                    <div class="course-cell">
+                                        <i class="fas fa-book"></i>
+                                        <span><?= $courses_plus_five_sections['title']; ?></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="number-highlight">
+                                        <?= $courses_plus_five_sections['total_sections']; ?>
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h3>Aucun cours trouvé</h3>
+                    <p>Il n'y a pas de cours avec plus de 4 sections</p>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
-</div>
 
     <!-- Users Enrolled This Year -->
     <div class="courses-section">
         <div class="section-header">
             <h2><i class="fas fa-user-clock"></i> Utilisateurs Inscrits cette Année</h2>
-            <span class="badge-count">847 utilisateurs</span>
         </div>
 
         <div class="table-card">
@@ -176,18 +187,18 @@ require_once '../header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($userrr = mysqli_fetch_assoc($res_this_year)) {?>
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                <i class="fas fa-user-circle"></i>
-                                <span><?= $userrr['username'] ?></span>
-                            </div>
-                        </td>
-                        <td><?= $userrr['email'] ?></td>
-                        <td><?= $userrr['created_at'] ?></td>
-                    </tr>
-                    <?php }?>
+                    <?php while ($userrr = mysqli_fetch_assoc($res_this_year)) { ?>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span><?= $userrr['username'] ?></span>
+                                </div>
+                            </td>
+                            <td><?= $userrr['email'] ?></td>
+                            <td><?= $userrr['created_at'] ?></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -209,18 +220,18 @@ require_once '../header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                    while($no_enrollments = mysqli_fetch_assoc($res_no_enrollments)){?>
-                    <tr class="warning-row">
-                        <td>
-                            <div class="course-cell">
-                                <span><?=  $no_enrollments['title']?></span>
-                            </div>
-                        </td>
-                        <td><span><?=  $no_enrollments['course_level']?></span></td>
-                        <td><?=  $no_enrollments['created_at']?></td>
-                    </tr>
-                    <?php }?>
+                    <?php
+                    while ($no_enrollments = mysqli_fetch_assoc($res_no_enrollments)) { ?>
+                        <tr class="warning-row">
+                            <td>
+                                <div class="course-cell">
+                                    <span><?= $no_enrollments['title'] ?></span>
+                                </div>
+                            </td>
+                            <td><span><?= $no_enrollments['course_level'] ?></span></td>
+                            <td><?= $no_enrollments['created_at'] ?></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -236,130 +247,21 @@ require_once '../header.php';
             <table class="stats-table">
                 <thead>
                     <tr>
-                        <th>Utilisateur</th>
-                        <th>Cours</th>
-                        <th>Niveau</th>
+                        <th>Utilisateur id</th>
+                        <th>Cours id</th>
                         <th>Date d'inscription</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                <i class="fas fa-user-circle"></i>
-                                <span>Mohammed Tazi</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="course-cell">
-                                <i class="fas fa-code"></i>
-                                <span>JavaScript Avancé</span>
-                            </div>
-                        </td>
-                        <td><span class="level-badge level-avancé">Avancé</span></td>
-                        <td>
-                            <span class="recent-badge">
-                                <i class="fas fa-clock"></i> Il y a 2h
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                <i class="fas fa-user-circle"></i>
-                                <span>Fatima Zahra</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="course-cell">
-                                <i class="fas fa-python"></i>
-                                <span>Introduction au Python</span>
-                            </div>
-                        </td>
-                        <td><span class="level-badge level-débutant">Débutant</span></td>
-                        <td>
-                            <span class="recent-badge">
-                                <i class="fas fa-clock"></i> Il y a 5h
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                <i class="fas fa-user-circle"></i>
-                                <span>Karim Bennani</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="course-cell">
-                                <i class="fas fa-database"></i>
-                                <span>Base de données SQL</span>
-                            </div>
-                        </td>
-                        <td><span class="level-badge level-intermédiaire">Intermédiaire</span></td>
-                        <td>
-                            <span class="recent-badge">
-                                <i class="fas fa-clock"></i> Il y a 1 jour
-                            </span>
-                        </td>
-                    </tr>
+                    <?php while ($enroll = mysqli_fetch_assoc($res_last_3)): ?>
+                        <tr>
+                            <td><?= $enroll['user_id'] ?></td>
+                            <td><?= $enroll['course_id'] ?></td>
+                            <td><?= $enroll['created_at'] ?></td>
+                        </tr>
+                    <?php endwhile; ?>
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <!-- Enrollments per Course Chart -->
-    <div class="courses-section">
-        <div class="section-header">
-            <h2><i class="fas fa-chart-bar"></i> Inscriptions par Cours</h2>
-        </div>
-
-        <div class="chart-card">
-            <div class="chart-bar">
-                <div class="bar-item">
-                    <div class="bar-label">
-                        <i class="fas fa-python"></i>
-                        <span>Introduction Python</span>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill" style="width: 92%;"></div>
-                        <span class="bar-value">456</span>
-                    </div>
-                </div>
-
-                <div class="bar-item">
-                    <div class="bar-label">
-                        <i class="fas fa-code"></i>
-                        <span>JavaScript Avancé</span>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill" style="width: 47%;"></div>
-                        <span class="bar-value">234</span>
-                    </div>
-                </div>
-
-                <div class="bar-item">
-                    <div class="bar-label">
-                        <i class="fas fa-database"></i>
-                        <span>SQL Database</span>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill" style="width: 38%;"></div>
-                        <span class="bar-value">189</span>
-                    </div>
-                </div>
-
-                <div class="bar-item">
-                    <div class="bar-label">
-                        <i class="fas fa-palette"></i>
-                        <span>HTML & CSS</span>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill" style="width: 31%;"></div>
-                        <span class="bar-value">156</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
