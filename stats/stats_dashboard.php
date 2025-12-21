@@ -90,13 +90,6 @@ require_once '../header.php';
             <p>Utilisateurs Inscrits</p>
         </div>
 
-        <!-- Card 3: Total Enrollments -->
-        <div class="stat-card">
-            <i class="fas fa-user-graduate"></i>
-            <h3><?= $enrollements_nb ?></h3>
-            <p>Inscriptions Totales</p>
-        </div>
-
         <!-- Card 4: Average Sections -->
         <div class="stat-card">
             <i class="fas fa-list-ul"></i>
@@ -170,7 +163,22 @@ require_once '../header.php';
             <?php endif; ?>
         </div>
     </div>
-
+    <div class="courses-section">
+        <div class="chart-bar">
+            <?php while ($course = mysqli_fetch_assoc($res_enrollments_per_course)): ?>
+                <div class="bar-item">
+                    <div class="bar-label">
+                        <i class="fas fa-book"></i>
+                        <span><?= $course['title'] ?></span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: <?= ($course['total_enrollments'] * 10) ?>%;"></div>
+                        <span class="bar-value"><?= $course['total_enrollments'] ?></span>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
     <!-- Users Enrolled This Year -->
     <div class="courses-section">
         <div class="section-header">
@@ -264,6 +272,7 @@ require_once '../header.php';
             </table>
         </div>
     </div>
+
 
 </div>
 
