@@ -41,11 +41,18 @@ $sql_this_year = "SELECT * FROM users
 WHERE  YEAR(created_at) = 2025";
 $res_this_year = mysqli_query($connection, $sql_this_year);
 
+$sql_no_enrollments = "SELECT * FROM courses 
+WHERE id NOT IN (SELECT course_id FROM enrollments)";
+$res_no_enrollments = mysqli_query($connection, $sql_no_enrollments);
+
+
+
+
 
 require_once '../header.php';
 ?>
 
-<!-- Hero Sect -->
+<!-- Hero Section -->
 <section class="hero" style="padding: 2rem 0; min-height: auto;">
     <div class="container">
         <h1><i class="fas fa-chart-line"></i> Tableau de Bord Statistiques</h1>
@@ -190,7 +197,6 @@ require_once '../header.php';
     <div class="courses-section">
         <div class="section-header">
             <h2><i class="fas fa-exclamation-triangle"></i> Cours Sans Inscription</h2>
-            <span class="badge-count badge-warning">2 cours</span>
         </div>
 
         <div class="table-card">
@@ -200,32 +206,21 @@ require_once '../header.php';
                         <th>Cours</th>
                         <th>Niveau</th>
                         <th>Date de création</th>
-                        <th>Sections</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php 
+                    while($no_enrollments = mysqli_fetch_assoc($res_no_enrollments)){?>
                     <tr class="warning-row">
                         <td>
                             <div class="course-cell">
-                                <i class="fas fa-robot"></i>
-                                <span>Intelligence Artificielle</span>
+                                <span><?=  $no_enrollments['title']?></span>
                             </div>
                         </td>
-                        <td><span class="level-badge level-avancé">Avancé</span></td>
-                        <td>01/12/2024</td>
-                        <td><span class="number-highlight">4</span></td>
+                        <td><span><?=  $no_enrollments['course_level']?></span></td>
+                        <td><?=  $no_enrollments['created_at']?></td>
                     </tr>
-                    <tr class="warning-row">
-                        <td>
-                            <div class="course-cell">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span>Développement Mobile</span>
-                            </div>
-                        </td>
-                        <td><span class="level-badge level-intermédiaire">Intermédiaire</span></td>
-                        <td>28/11/2024</td>
-                        <td><span class="number-highlight">3</span></td>
-                    </tr>
+                    <?php }?>
                 </tbody>
             </table>
         </div>
